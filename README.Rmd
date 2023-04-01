@@ -1,0 +1,18 @@
+```{r}
+data("mtcars")
+```
+
+```{r}
+mtcars %>% summary %>% analyse("pick the largest variable") %>% cat
+```
+
+```{r}
+# This is a function in R that takes an input x and adds 1 to it
+
+add_one <- function(x) {
+  x + 1
+}
+
+# Usage: 
+# Calling the function with add_one(5) will return 6
+```
