@@ -1,26 +1,28 @@
 #' Ask Chatgpt for an answer
-#' 
+#'
 #' @param x data
 #' @param prompt idea
 #' @param ... additional arguments
 #' @return code
+#' 
 #' @export
-
-
-askgpt <- function(x, prompt, ...) {
+askgpt <- function(x, ...) {
     UseMethod("askgpt")
 }
 
-askgpt.default <- function(x, prompt, ...) {
+#' @export
+askgpt.default <- function(x, prompt=NULL, ...) {
     desc <- paste(capture.output(str(x)), collapse = "\n")
     request(paste(prompt, "\n", desc, sep = ""))$choices[[1]]$message$content
 }
 
+#' @export
 askgpt.function <- function(x, prompt, ...) {
     func_desc <- paste(capture.output(x), collapse = "\n")
     request(paste(prompt, "\n", func_desc, sep = ""))$choices[[1]]$message$content
 }
 
+#' @export
 askgpt.fseq <- function(x, prompt, ...) {
     out_desc <- capture.output(x)
     len <- length(out_desc)
@@ -30,6 +32,7 @@ askgpt.fseq <- function(x, prompt, ...) {
     request(paste(prompt, "\n", fseq_desc, sep = ""))$choices[[1]]$message$content
 }
 
+#' @export
 askgpt.data.frame <- function(x, prompt) {
     row_names <- rownames(x)
     if (is.null(row_names)) row_names <- "not given"
@@ -48,6 +51,7 @@ askgpt.data.frame <- function(x, prompt) {
     request(paste(prompt, " ", ",given the data description below", "\n", df_desc, sep = ""))$choices[[1]]$message$content
 }
 
+#' @export
 askgpt.table <- function(x, prompt) {
     row_names <- rownames(x)
     if (is.null(row_names)) row_names <- "not given"
@@ -64,11 +68,13 @@ askgpt.table <- function(x, prompt) {
     request(paste(prompt, "\n", table_desc, sep = ""))$choices[[1]]$message$content
 }
 
+#' @export
 askgpt.summary.default <- function(x, prompt, ...) {
     summary_string <- paste(capture.output(x), collapse = "\n")
     request(paste(prompt, "\n", summary_string, sep = ""))$choices[[1]]$message$content
 }
 
+#' @export
 askgpt.character <- function(x, prompt=NULL, ...) {
     desc <- paste(capture.output(x), collapse = "\n")
     request(paste(desc, sep = ""))$choices[[1]]$message$content

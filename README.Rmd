@@ -1,18 +1,111 @@
-```{r}
-data("mtcars")
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+library("tidychat")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 ```
 
-```{r}
-mtcars %>% summary %>% analyse("pick the largest variable") %>% cat
+
+# What's TidyChat 
+
+Inspired by @jcrodriguez1989's chatgpt package, a chatgpt library directly chat with what you write!
+
+## Installation
+
+You can install the development version of {tidychat} from [GitHub](https://github.com/jiayaobo/tidychat) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("jiayaobo/chatgpt")
 ```
 
-```{r}
-# This is a function in R that takes an input x and adds 1 to it
+## Requirements
 
-add_one <- function(x) {
-  x + 1
+See what @jcrodriguez1989 describes in [Requirements](https://github.com/jcrodriguez1989/chatgpt)
+
+You can set your config with
+
+``` r
+set_tidychat(openai_api_key,
+                         proxy_url = NULL,
+                         proxy_port = NULL,
+                         openai_model = "gpt-3.5-turbo",
+                         openai_max_tokens = 256,
+                         openai_temperature = 1,
+                         openai_top_p = 1,
+                         openai_frequency_penalty = 0,
+                         openai_presence_penalty = 0,
+                         openai_verbose = TRUE,
+                         openai_return_language = "English")
+```
+
+## Features 
+
+* You can ask chatgpt for any questions with pure character string
+
+* You can explore your data with tidychat
+
+* You can get a report of summary without effort
+
+* You can get the solution for your processing programming
+
+* Integrate with %>%
+
+## Simply Ask GPT
+
+**Sorry, I have no idea why generic functions for character is failed for askgpt :(**
+
+* Character
+
+```{r, echo=FALSE, results='asis'}
+askgpt.character("how do you like Renmin University of China?") %>% cat
+```
+* Function
+```{r, echo=FALSE, results='asis'}
+find_prime <- function(x) {
+  # find primary number
 }
-
-# Usage: 
-# Calling the function with add_one(5) will return 6
+find_prime %>% askgpt("compelete the function to find primes between 1 to x") %>% cat
 ```
+
+## Additional Parameters
+
+### Disable Console Messages
+
+If you want {chatgpt} not to show messages in console, please set the environment variable `OPENAI_VERBOSE=FALSE`.
+
+### Addin Changes in Place
+
+If you want {chatgpt} addins to take place in the editor -i.e., replace the selected code with the result of the addin execution- then you sould set the environment variable `OPENAI_ADDIN_REPLACE=TRUE`.
+
+### Change the language of ChatGPT responses
+
+To change the language that ChatGPT responds in, the `OPENAI_RETURN_LANGUAGE` environment variable must be changed.
+E.g., 
+
+```{r}
+Sys.setenv("OPENAI_RETURN_LANGUAGE" = "Español")
+cat(chatgpt::explain_code("for (i in 1:10) {\n  print(i ** 2)\n}"))
+```
+
+### ChatGPT Model Tweaks
+
+As default:
+
+* `OPENAI_MODEL`; defaults to `"gpt-3.5-turbo"`
+* `OPENAI_MAX_TOKENS`; defaults to `256`
+* `OPENAI_TEMPERATURE`; defaults to `1`
+* `OPENAI_TOP_P`; defaults to `1`
+* `OPENAI_FREQUENCY_PENALTY`; defaults to `0`
+* `OPENAI_PRESENCE_PENALTY`; defaults to `0`
+
+### References
+
+[chatgpt](https://github.com/jcrodriguez1989/chatgpt)

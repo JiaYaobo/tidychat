@@ -1,5 +1,20 @@
 #' @title Set TidyChat Global Variables
+#' @description Set TidyChat Global Variables
+#' @param openai_api_key OpenAI API Key
+#' @param proxy_url Proxy URL
+#' @param proxy_port Proxy Port
+#' @param openai_model OpenAI Model
+#' @param openai_max_tokens OpenAI Max Tokens
+#' @param openai_temperature OpenAI Temperature
+#' @param openai_top_p OpenAI Top P
+#' @param openai_frequency_penalty OpenAI Frequency Penalty
+#' @param openai_presence_penalty OpenAI Presence Penalty
+#' @param openai_verbose OpenAI Verbose
+#' @param openai_return_language OpenAI Return Language
+#' @return NULL
+#' 
 
+#' @export
 set_tidychat <- function(openai_api_key,
                          proxy_url = NULL,
                          proxy_port = NULL,
@@ -22,10 +37,15 @@ set_tidychat <- function(openai_api_key,
     Sys.setenv(OPENAI_VERBOSE = openai_verbose)
     Sys.setenv(OPENAI_RETURN_LANGUAGE = openai_return_language)
     if (!is.null(proxy_url)) {
-        set_config(use_proxy(url = proxy_url, port = proxy_port))
+        httr::set_config(use_proxy(url = proxy_url, port = proxy_port))
     }
 }
 
+#' @title Get TidyChat Global Variables
+#' @description Get TidyChat Global Variables
+#' @return A list of TidyChat Global Variables
+#' @export
+#' 
 get_tidychat <- function(){
     list(
         openai_api_key = Sys.getenv("OPENAI_API_KEY"),
@@ -40,6 +60,12 @@ get_tidychat <- function(){
     )
 }
 
+#' @title Update TidyChat Global Variables
+#' @description Update TidyChat Global Variables
+#' @param key Key
+#' @param value Value
+#' @return NULL
+#' @export
 update_tidychat <- function(key, value){
     Sys.setenv(key, value)
 }
