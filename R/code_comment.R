@@ -11,20 +11,17 @@ code_comment <- function(x, ...){
     UseMethod("code_comment")
 }
 
-prompt_code_cmnt1 <- "Please comment the code below"
-prompt_code_cmnt2 <- ", and instantly return code like ```{r} code and comment here``` "
-
 code_comment.character <- function(x, ...){
-    what <- paste(prompt_code_cmnt1, prompt_code_cmnt2)
+    what <- paste("Please comment the code below", ", and instantly return code like ```{r} code and comment here``` ")
     askgpt.character(x = what)
 }
 
-code_comment.function <- function(x, idea, ...){
-    what <- paste(prompt_code_cmnt1, prompt_code_cmnt2)
+code_comment.function <- function(x, ...){
+    what <- paste(", and instantly return code like ```{r} code and comment here``` ", ", and instantly return code like ```{r} code and comment here``` ")
     askgpt.function(x, what)
 }
 
-code_comment.fseq <- function(x, idea, ...){
-    what <- paste(prompt_code_cmnt1, prompt_code_cmnt2)
+code_comment.fseq <- function(x, ...){
+    what <- paste(", and instantly return code like ```{r} code and comment here``` ", ", and instantly return code like ```{r} code and comment here``` ")
     askgpt.fseq(x, what)
 }

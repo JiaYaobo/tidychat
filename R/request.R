@@ -1,6 +1,3 @@
-library(httr)
-library(jsonlite)
-
 request <- function(prompt, openai_api_key=Sys.getenv("OPENAI_API_KEY")){
   if (nchar(openai_api_key) == 0) {
     stop("`OPENAI_API_KEY` not provided.")
@@ -32,23 +29,23 @@ request <- function(prompt, openai_api_key=Sys.getenv("OPENAI_API_KEY")){
       ),
       list(role = "user", content = prompt)
     )
-    post_res <- POST(
+    post_res <- httr::POST(
       "https://api.openai.com/v1/chat/completions",
-      add_headers("Authorization" = paste("Bearer", openai_api_key)),
-      content_type_json(),
-      body = toJSON(c(params, list(messages = messages)), auto_unbox = TRUE)
+      httr::add_headers("Authorization" = paste("Bearer", openai_api_key)),
+      httr::content_type_json(),
+      body = jsonlite::toJSON(c(params, list(messages = messages)), auto_unbox = TRUE)
     )
   } else {
-    post_res <- POST(
+    post_res <- httr::POST(
       "https://api.openai.com/v1/completions",
-      add_headers("Authorization" = paste("Bearer", openai_api_key)),
-      content_type_json(),
-      body = toJSON(c(params, list(prompt = prompt)), auto_unbox = TRUE)
+      httr::add_headers("Authorization" = paste("Bearer", openai_api_key)),
+      httr::content_type_json(),
+      body = jsonlite::toJSON(c(params, list(prompt = prompt)), auto_unbox = TRUE)
     )
   }
   if (!post_res$status_code %in% 200:299) {
-    stop(content(post_res))
+    stop(httr::content(post_res))
   }
-  content(post_res)
+  httr::content(post_res)
 }
 

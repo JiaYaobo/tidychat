@@ -1,30 +1,39 @@
+#' @title analyse data
+#' @description analyse data
+#' @param x data
+#' @param prompt idea
+#' @param ... additional arguments
+#' @return code
+#' @export
+
+
 analyse <- function(x, ...) {
   UseMethod("analyse")
 }
 
 
-analyse.default <- function(x, what, ...) {
+analyse.default <- function(x, prompt, ...) {
   class_name <- class(x)[1]
   if (substr(class_name, 1, 7) == "summary") {
-    what = paste("Please analys the summary with idea:", what)
-    askgpt.summary.default(x, what)
+    prompt = paste("Please analys the summary with idea:", prompt)
+    askgpt.summary.default(x, prompt)
   } else {
-  what <- paste("Please analyse the data with idea:", what, ",code block should be like ```{r} code here``` ")
-  askgpt.default(x, what)
+  prompt <- paste("Please analyse the data with idea:", prompt, ",code block should be like ```{r} code here``` ")
+  askgpt.default(x, prompt)
   }
 }
 
-analyse.default <- function(x, what, ...) {
-    what <- paste("Please analyse the data with idea:", what, ",code block should be like ```{r} code here``` ")
-    askgpt.default(x, what)
+analyse.default <- function(x, prompt, ...) {
+    prompt <- paste("Please analyse the data with idea:", prompt, ",code block should be like ```{r} code here``` ")
+    askgpt.default(x, prompt)
 }
 
-analyse.data.frame <- function(x, what, ...) {
-    what <- paste("Please analyse the data with idea:", what, ",code block should be like ```{r} code here``` ")
-    askgpt.data.frame(x, what)
+analyse.data.frame <- function(x, prompt, ...) {
+    prompt <- paste("Please analyse the data with idea:", prompt, ",code block should be like ```{r} code here``` ")
+    askgpt.data.frame(x, prompt)
 }
 
-analyse.table <- function(x, what, ...) {
-    what <- paste("Please analyse the data with idea:", what, ",answer me start with and only return code like ```{r} code here``` ")
-    askgpt.table(x, what)
+analyse.table <- function(x, prompt, ...) {
+    prompt <- paste("Please analyse the data with idea:", prompt, ",answer me start with and only return code like ```{r} code here``` ")
+    askgpt.table(x, prompt)
 }

@@ -1,3 +1,5 @@
+#' @title Set TidyChat Global Variables
+
 set_tidychat <- function(openai_api_key,
                          proxy_url = NULL,
                          proxy_port = NULL,
