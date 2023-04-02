@@ -61,17 +61,15 @@ set_tidychat(openai_api_key,
 
 ## Simply Ask GPT
 
-**Sorry, I have no idea why generic functions for character is failed for askgpt :(**
-
 -   Character
 
-```{r, echo=FALSE, results='asis'}
+```{r, results='asis'}
 askgpt("Do you know Renmin University of China?") %>% cat
 ```
 
 -   Function
 
-```{r, echo=FALSE, results='asis'}
+```{r, results='asis'}
 find_prime <- function(x) {
   # find primary number
 }
@@ -81,21 +79,21 @@ find_prime %>% askgpt("compelete the function to find primes between 1 to x") %>
 
 -   Sequence Functions
 
-```{r, echo=FALSE, results='asis'}
+```{r, results='asis'}
 fseq <- .%>% filter(A>10) %>% mutate(B=A*10) %>% lm(A~B, data=.) %>% summary
 fseq %>% askgpt("describe what the function do?") %>% cat
 ```
 
 -   Data
 
-```{r, echo=FALSE, results='asis'}
+```{r, results='asis'}
 data("mtcars")
 mtcars %>% askgpt("give me some description on it") %>% cat
 ```
 
 -   Or Data Related Summary
 
-```{r, echo=FALSE, results='asis'}
+```{r, results='asis'}
 data("mtcars")
 mtcars %>% lm(mpg~disp, data=.) %>% summary %>% askgpt("report the summay to me!") %>% cat
 ```
@@ -104,14 +102,14 @@ mtcars %>% lm(mpg~disp, data=.) %>% summary %>% askgpt("report the summay to me!
 
 -   For Data.Frame
 
-```{r, echo=FALSE, results='asis'}
+```{r, results='asis'}
 data("mtcars")
 mtcars %>% analyse("make regression between mpg and other variables") %>% cat
 ```
 
 -   For Table
 
-```{r, echo=FALSE, results='asis'}
+```{r, results='asis'}
 smoking <- c("yes", "no", "yes", "no", "yes", "no", "yes", "no", "yes", "no")
 lung_cancer <- c("yes", "no", "yes", "no", "no", "no", "yes", "yes", "yes", "yes")
 
@@ -128,7 +126,7 @@ cont_table %>% analyse("check if smoking and lung cancer are related") %>% cat
 
 -   HTest
 
-```{r}
+```{r, results='asis'}
 # create the contingency table
 lung_cancer <- matrix(c(90, 10, 110, 40), ncol = 2, byrow = TRUE)
 colnames(lung_cancer) <- c("Diagnosed with lung cancer", "No lung cancer")
@@ -140,13 +138,13 @@ chisq.test(lung_cancer) %>% create_report %>% cat
 
 -   For Summary.\*
 
-```{r}
+```{r, results='asis'}
 mtcars %>% lm(mpg~disp, data=.) %>% summary %>% create_report %>% cat
 ```
 
 ## Code Completion
 
-```{r}
+```{r, results='asis'}
 f <- function(x, y) {
   # merge two sorted list x and y
 }
@@ -155,7 +153,7 @@ f %>% code_completion(idea=NULL) %>% cat
 
 ## Code Comment
 
-```{r}
+```{r, results='asis'}
 fibo <- function(n){
   if (n == 1 || n == 0 || n == 2){
     return(n)
@@ -176,13 +174,13 @@ If you want {tidychat} not to show messages in console,just like {chatgpt}, set 
 
 Change the `OPENAI_RETURN_LANGUAGE` with \``Sys.setenv`
 
-```{r}
+```{r, results='asis'}
 Sys.setenv("OPENAI_RETURN_LANGUAGE" = "中文")
 # check if modified
 get_tidychat()
 ```
 
-```{r}
+```{r, results='asis'}
 mtcars %>% lm(mpg~disp, data=.) %>% summary %>% create_report %>% cat
 ```
 
