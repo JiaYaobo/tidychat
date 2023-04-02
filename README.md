@@ -13,7 +13,7 @@ You can install the development version of {tidychat} from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("jiayaobo/chatgpt")
+remotes::install_github("jiayaobo/tidychat")
 ```
 
 ## Requirements
