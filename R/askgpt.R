@@ -4,7 +4,7 @@
 #' @param prompt idea
 #' @param ... additional arguments
 #' @return code
-#' 
+#'
 #' @export
 askgpt <- function(x, ...) {
     UseMethod("askgpt")
@@ -12,7 +12,11 @@ askgpt <- function(x, ...) {
 
 #' @export
 askgpt.default <- function(x, prompt=NULL, ...) {
-    desc <- paste(capture.output(str(x)), collapse = "\n")
+    class_name = class(x)[1]
+    if (substr(class_name, 1, 7) == "summary") {
+      return(askgpt.summary.default(x, prompt))
+    }
+    desc <- paste(capture.output(x), collapse = "\n")
     request(paste(prompt, "\n", desc, sep = ""))$choices[[1]]$message$content
 }
 
@@ -33,15 +37,17 @@ askgpt.fseq <- function(x, prompt, ...) {
 }
 
 #' @export
-askgpt.data.frame <- function(x, prompt) {
+askgpt.data.frame <- function(x, prompt, summarized=FALSE) {
+    if (summarized == TRUE){
+        return(askgpt.summary.default(x, prompt))
+    }
     row_names <- rownames(x)
     if (is.null(row_names)) row_names <- "not given"
     col_names <- colnames(x)
     if (is.null(col_names)) col_names <- "not given"
     types <- sapply(x, class)
-
     df_desc <- paste(
-        "It's a data frame with", length(row_names),
+        "given the data frame with", length(row_names),
         "rows and", length(col_names),
         "columns, and the column names are", paste(col_names, collapse = ", "),
         ", and the row names are", paste(row_names, collapse = ", "),
@@ -52,14 +58,17 @@ askgpt.data.frame <- function(x, prompt) {
 }
 
 #' @export
-askgpt.table <- function(x, prompt) {
+askgpt.table <- function(x, prompt, summarized=FALSE) {
+    if (summarized == TRUE){
+      return(askgpt.summary.default(x, prompt))
+    }
     row_names <- rownames(x)
     if (is.null(row_names)) row_names <- "not given"
     col_names <- colnames(x)
     if (is.null(col_names)) col_names <- "not given"
-    types <- sapply(x, class)[0]
+    types <- sapply(x, class)[1]
     table_desc <- paste(
-        "It's a table with", length(row_names),
+        "given the table with", length(row_names),
         "rows and", length(col_names),
         "columns, and the column names are", paste(col_names, collapse = ", "),
         ", and the row names are", paste(row_names, collapse = ", "),
@@ -70,12 +79,18 @@ askgpt.table <- function(x, prompt) {
 
 #' @export
 askgpt.summary.default <- function(x, prompt, ...) {
-    summary_string <- paste(capture.output(x), collapse = "\n")
-    request(paste(prompt, "\n", summary_string, sep = ""))$choices[[1]]$message$content
+    summary_desc <- paste(capture.output(x), collapse = "\n")
+    request(paste(prompt, "\n", summary_desc, sep = ""))$choices[[1]]$message$content
 }
 
 #' @export
 askgpt.character <- function(x, prompt=NULL, ...) {
+  desc <- paste(capture.output(x), collapse = "\n")
+  request(paste(desc, sep = ""))$choices[[1]]$message$content
+}
+
+#' @export
+askgpt.htest <- function(x, prompt=NULL, ...) {
     desc <- paste(capture.output(x), collapse = "\n")
     request(paste(desc, sep = ""))$choices[[1]]$message$content
 }

@@ -17,7 +17,7 @@ code_completion.character <- function(x, ...){
 }
 
 #' @export
-code_completion.function <- function(x, idea, ...){
+code_completion.function <- function(x, idea=NULL, ...){
     if (is.null(idea)) {
         prompt <- paste("Please complete the code and answer me start with and only return code like ```{r} code here```")
     }else {

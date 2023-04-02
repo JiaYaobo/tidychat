@@ -5,15 +5,16 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
-library("tidychat")
+library(tidychat)
+library(dplyr)
+set_tidychat("*", "127.0.0.1", 7890)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-
-# What's TidyChat 
+# What's TidyChat
 
 Inspired by @jcrodriguez1989's chatgpt package, a chatgpt library directly chat with what you write!
 
@@ -46,65 +47,144 @@ set_tidychat(openai_api_key,
                          openai_return_language = "English")
 ```
 
-## Features 
+## Features
 
-* You can ask chatgpt for any questions with pure character string
+-   You can ask chatgpt for any questions with pure character string
 
-* You can explore your data with tidychat
+-   You can explore your data with tidychat
 
-* You can get a report of summary without effort
+-   You can get a report of summary without effort
 
-* You can get the solution for your processing programming
+-   You can get the solution for your processing programming
 
-* Integrate with %>%
+-   Integrate with %\>%
 
 ## Simply Ask GPT
 
 **Sorry, I have no idea why generic functions for character is failed for askgpt :(**
 
-* Character
+-   Character
 
 ```{r, echo=FALSE, results='asis'}
-askgpt.character("how do you like Renmin University of China?") %>% cat
+askgpt("Do you know Renmin University of China?") %>% cat
 ```
-* Function
+
+-   Function
+
 ```{r, echo=FALSE, results='asis'}
 find_prime <- function(x) {
   # find primary number
 }
+
 find_prime %>% askgpt("compelete the function to find primes between 1 to x") %>% cat
 ```
 
-## Additional Parameters
+-   Sequence Functions
+
+```{r, echo=FALSE, results='asis'}
+fseq <- .%>% filter(A>10) %>% mutate(B=A*10) %>% lm(A~B, data=.) %>% summary
+fseq %>% askgpt("describe what the function do?") %>% cat
+```
+
+-   Data
+
+```{r, echo=FALSE, results='asis'}
+data("mtcars")
+mtcars %>% askgpt("give me some description on it") %>% cat
+```
+
+-   Or Data Related Summary
+
+```{r, echo=FALSE, results='asis'}
+data("mtcars")
+mtcars %>% lm(mpg~disp, data=.) %>% summary %>% askgpt("report the summay to me!") %>% cat
+```
+
+## Guidance on Analysing Data
+
+-   For Data.Frame
+
+```{r, echo=FALSE, results='asis'}
+data("mtcars")
+mtcars %>% analyse("make regression between mpg and other variables") %>% cat
+```
+
+-   For Table
+
+```{r, echo=FALSE, results='asis'}
+smoking <- c("yes", "no", "yes", "no", "yes", "no", "yes", "no", "yes", "no")
+lung_cancer <- c("yes", "no", "yes", "no", "no", "no", "yes", "yes", "yes", "yes")
+
+lung_data <- data.frame(smoking, lung_cancer)
+lung_data$smoking_desc <- ifelse(lung_data$smoking == "yes", "Smoker", "Non-smoker")
+lung_data$lung_cancer_desc <- ifelse(lung_data$lung_cancer == "yes", "Diagnosed with lung cancer", "No lung cancer")
+cont_table <- table(lung_data$smoking_desc, lung_data$lung_cancer_desc)
+
+
+cont_table %>% analyse("check if smoking and lung cancer are related") %>% cat
+```
+
+## Create Reports With Format
+
+-   HTest
+
+```{r}
+# create the contingency table
+lung_cancer <- matrix(c(90, 10, 110, 40), ncol = 2, byrow = TRUE)
+colnames(lung_cancer) <- c("Diagnosed with lung cancer", "No lung cancer")
+rownames(lung_cancer) <- c("Non-smoker", "Smoker")
+
+# perform the chi-squared test
+chisq.test(lung_cancer) %>% create_report %>% cat
+```
+
+-   For Summary.\*
+
+```{r}
+mtcars %>% lm(mpg~disp, data=.) %>% summary %>% create_report %>% cat
+```
+
+## Code Completion
+
+```{r}
+f <- function(x, y) {
+  # merge two sorted list x and y
+}
+f %>% code_completion(idea=NULL) %>% cat
+```
+
+## Code Comment
+
+```{r}
+fibo <- function(n){
+  if (n == 1 || n == 0 || n == 2){
+    return(n)
+  }else {
+    return(fibo(n-1) + fibo(n-2))
+  }
+}
+fibo %>% code_comment %>% cat
+```
+
+## Others
 
 ### Disable Console Messages
 
-If you want {chatgpt} not to show messages in console, please set the environment variable `OPENAI_VERBOSE=FALSE`.
-
-### Addin Changes in Place
-
-If you want {chatgpt} addins to take place in the editor -i.e., replace the selected code with the result of the addin execution- then you sould set the environment variable `OPENAI_ADDIN_REPLACE=TRUE`.
+If you want {tidychat} not to show messages in console,just like {chatgpt}, set the environment variable `OPENAI_VERBOSE=FALSE`.
 
 ### Change the language of ChatGPT responses
 
-To change the language that ChatGPT responds in, the `OPENAI_RETURN_LANGUAGE` environment variable must be changed.
-E.g., 
+Change the `OPENAI_RETURN_LANGUAGE` with \``Sys.setenv`
 
 ```{r}
-Sys.setenv("OPENAI_RETURN_LANGUAGE" = "Español")
-cat(chatgpt::explain_code("for (i in 1:10) {\n  print(i ** 2)\n}"))
+Sys.setenv("OPENAI_RETURN_LANGUAGE" = "中文")
+# check if modified
+get_tidychat()
 ```
 
-### ChatGPT Model Tweaks
-
-As default:
-
-* `OPENAI_MODEL`; defaults to `"gpt-3.5-turbo"`
-* `OPENAI_MAX_TOKENS`; defaults to `256`
-* `OPENAI_TEMPERATURE`; defaults to `1`
-* `OPENAI_TOP_P`; defaults to `1`
-* `OPENAI_FREQUENCY_PENALTY`; defaults to `0`
-* `OPENAI_PRESENCE_PENALTY`; defaults to `0`
+```{r}
+mtcars %>% lm(mpg~disp, data=.) %>% summary %>% create_report %>% cat
+```
 
 ### References
 
