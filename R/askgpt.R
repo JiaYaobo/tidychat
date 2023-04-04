@@ -1,9 +1,9 @@
 #' Ask Chatgpt for an answer
 #'
-#' @param x data
-#' @param prompt idea
+#' @param x what you want to ask 
+#' @param prompt your prompt
 #' @param ... additional arguments
-#' @return code
+#' @return chatgpt answer
 #'
 #' @export
 askgpt <- function(x, ...) {
@@ -54,7 +54,7 @@ askgpt.data.frame <- function(x, prompt, summarized=FALSE) {
         ", and the types of the columns are", paste(types, collapse = ", ")
     )
 
-    request(paste(prompt, " ", ",given the data description below", "\n", df_desc, sep = ""))$choices[[1]]$message$content
+    request(paste(prompt, " ", ",given the description below:", "\n", df_desc, sep = ""))$choices[[1]]$message$content
 }
 
 #' @export
