@@ -25,16 +25,33 @@ You can set your config with
 
 ``` r
 set_tidychat(openai_api_key,
-                         proxy_url = NULL,
-                         proxy_port = NULL,
-                         openai_model = "gpt-3.5-turbo",
-                         openai_max_tokens = 256,
-                         openai_temperature = 1,
-                         openai_top_p = 1,
-                         openai_frequency_penalty = 0,
-                         openai_presence_penalty = 0,
-                         openai_verbose = TRUE,
-                         openai_return_language = "English")
+             proxy_url = NULL,
+             proxy_port = NULL,
+             openai_model = "gpt-3.5-turbo",
+             openai_max_tokens = 256,
+             openai_temperature = 1,
+             openai_top_p = 1,
+             openai_frequency_penalty = 0,
+             openai_presence_penalty = 0,
+             openai_verbose = TRUE,
+             openai_return_language = "English")
+```
+
+
+For examples, if you're using a proxy, like using clashx pro which use your 7890 port, you can set the proxy with
+
+``` r
+set_tidychat(openai_api_key="your key",
+             proxy_url = "127.0.0.1",
+             proxy_port = 7890,
+             openai_model = "gpt-3.5-turbo",
+             openai_max_tokens = 256,
+             openai_temperature = 1,
+             openai_top_p = 1,
+             openai_frequency_penalty = 0,
+             openai_presence_penalty = 0,
+             openai_verbose = TRUE,
+             openai_return_language = "English")
 ```
 
 ## Features
@@ -553,3 +570,8 @@ R-squared: 0.7183, Adjusted R-squared: 0.709 F-statistic: 76.51 on 1 and
 ### References
 
 [chatgpt](https://github.com/jcrodriguez1989/chatgpt)
+
+### Todo
+
+-  [ ] Add llama model support
+-  [ ] Add generic functions for `ggplot` class
