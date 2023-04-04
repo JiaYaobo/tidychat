@@ -77,11 +77,14 @@ for askgpt :(**
 askgpt("Do you know Renmin University of China?") %>% cat
 ```
 
+
+```
 \*\*\* ChatGPT input:
 
 \[1\] “Do you know Renmin University of China?” Yes, I am aware of
 Renmin University of China. It is a well-known research university
 located in Haidian District, Beijing, China.
+```
 
 - Function
 
@@ -93,6 +96,7 @@ find_prime <- function(x) {
 find_prime %>% askgpt("compelete the function to find primes between 1 to x") %>% cat
 ```
 
+```
 \*\*\* ChatGPT input:
 
 compelete the function to find primes between 1 to x function(x) { \#
@@ -125,6 +129,7 @@ so:
 This will return a vector of all prime numbers between 1 and 20:
 
     [1]  2  3  5  7 11 13 17 19
+```
 
 - Sequence Functions
 
@@ -133,6 +138,7 @@ fseq <- .%>% filter(A>10) %>% mutate(B=A*10) %>% lm(A~B, data=.) %>% summary
 fseq %>% askgpt("describe what the function do?") %>% cat
 ```
 
+```
 \*\*\* ChatGPT input:
 
 describe what the function do? given the description below is a sequence
@@ -156,6 +162,7 @@ summary(.) The sequence of functions is doing the following:
     regression model obtained from step 3, which includes information
     such as the coefficients, standard errors, t-values, p-values, and
     R-squared value of the model.
+```
 
 - Data
 
@@ -164,6 +171,7 @@ data("mtcars")
 mtcars %>% askgpt("give me some description on it") %>% cat
 ```
 
+```
 \*\*\* ChatGPT input:
 
 give me some description on it ,given the data description below given
@@ -188,6 +196,7 @@ the numeric data type. The row names represent the different car models
 in the dataset. These variables can be used to perform various
 statistical analyses or build predictive models to understand the
 relationships between different attributes of the car models.
+```
 
 - Or Data Related Summary
 
@@ -196,6 +205,7 @@ data("mtcars")
 mtcars %>% lm(mpg~disp, data=.) %>% summary %>% askgpt("report the summay to me!") %>% cat
 ```
 
+```
 \*\*\* ChatGPT input:
 
 report the summay to me!
@@ -234,6 +244,7 @@ shows the following:
 - Multiple R-squared: This is a measure of how well the model fits the
   data, ranging from 0 to 1. In this case, the R-squared value is
   0.7183, indicating that 71.83% of the
+```
 
 ## Guidance on Analysing Data
 
@@ -243,7 +254,7 @@ shows the following:
 data("mtcars")
 mtcars %>% analyse("make regression between mpg and other variables") %>% cat
 ```
-
+```
 \*\*\* ChatGPT input:
 
 Please analyse the data with idea: make regression between mpg and other
@@ -262,16 +273,14 @@ numeric, numeric, numeric, numeric, numeric Sure, I can help you with
 that. Here is the code block that performs linear regression between
 “mpg” and all other variables in the given dataset:
 
-``` {r}
-# Read the data
-data <- mtcars
+  # Read the data
+  data <- mtcars
 
-# Build the regression model
-model <- lm(mpg ~ ., data = data)
+  # Build the regression model
+  model <- lm(mpg ~ ., data = data)
 
-# Print the model summary
-summary(model)
-```
+  # Print the model summary
+  summary(model)
 
 In this code block, we first load the mtcars dataset into R. Then, we
 use the `lm()` function to build a linear regression model between “mpg”
@@ -281,6 +290,7 @@ the `summary()` function.
 
 This should give you the regression results including the coefficients,
 standard errors, p-values, etc.
+```
 
 - For Table
 
@@ -297,6 +307,7 @@ cont_table <- table(lung_data$smoking_desc, lung_data$lung_cancer_desc)
 cont_table %>% analyse("check if smoking and lung cancer are related") %>% cat
 ```
 
+```
 \*\*\* ChatGPT input:
 
 Please analyse the data with idea: check if smoking and lung cancer are
@@ -307,26 +318,24 @@ Non-smoker, Smoker , and the type of the value is integer Sure, here is
 the code to check the relationship between smoking and lung cancer using
 a chi-squared test:
 
-``` {r}
-# Create the data frame
-mydata <- data.frame(
-  "Smoker" = c(70, 230),
-  "Non-smoker" = c(30, 370)
-)
+  # Create the data frame
+  mydata <- data.frame(
+    "Smoker" = c(70, 230),
+    "Non-smoker" = c(30, 370)
+  )
 
-# Add column and row names
-rownames(mydata) <- c("Non-smoker", "Smoker")
-colnames(mydata) <- c("Diagnosed with lung cancer", "No lung cancer")
+  # Add column and row names
+  rownames(mydata) <- c("Non-smoker", "Smoker")
+  colnames(mydata) <- c("Diagnosed with lung cancer", "No lung cancer")
 
-# Run the chi-squared test
-chisq.test(mydata)
-```
+  # Run the chi-squared test
+  chisq.test(mydata)
 
 The output of this code will be the results of the chi-squared test,
 including the test statistic, degrees of freedom, and p-value. This will
 help you determine if there is a significant relationship between
 smoking and lung cancer in this data.
-
+```
 ## Create Reports With Format
 
 - HTest
@@ -341,6 +350,7 @@ rownames(lung_cancer) <- c("Non-smoker", "Smoker")
 chisq.test(lung_cancer) %>% create_report %>% cat
 ```
 
+```
 \*\*\* ChatGPT input:
 
 Please create a markdown format report for this hypothesis test result
@@ -373,6 +383,7 @@ factor.
 In conclusion, the Pearson’s Chi-squared test result suggests that there
 is a statistically significant association between the potential risk
 factor and lung cancer.
+```
 
 - For Summary.\*
 
@@ -380,6 +391,7 @@ factor and lung cancer.
 mtcars %>% lm(mpg~disp, data=.) %>% summary %>% create_report %>% cat
 ```
 
+```
 \*\*\* ChatGPT input:
 
 Please create a markdown format report for this summary table to me with
@@ -419,6 +431,7 @@ each unit of increase in the displacement of the engine (disp).
 The model had a good fit to the data, explaining 71.83% of the variance
 in the miles per gallon (mpg) variable (R-squared = 0.7183), and the
 adjusted R-squared value was
+```
 
 ## Code Completion
 
@@ -429,12 +442,12 @@ f <- function(x, y) {
 f %>% code_completion(idea=NULL) %>% cat
 ```
 
+```
 \*\*\* ChatGPT input:
 
 Please complete the code and answer me start with and only return code
 like `{r} code here` function(x, y) { \# merge two sorted list x and y }
 
-``` {r}
 merge_sorted_lists <- function(x, y) {
   # initialize variables
   i <- 1
@@ -479,23 +492,24 @@ fibo <- function(n){
 fibo %>% code_comment %>% cat
 ```
 
+```
 \*\*\* ChatGPT input:
 
 Please comment the code below , and instantly return code like
 `{r} code and comment here` function(n){ if (n == 1 \|\| n == 0 \|\| n
 == 2){ return(n) }else { return(fibo(n-1) + fibo(n-2)) } }
 
-``` {r}
-# The following function calculates the nth number in the Fibonacci sequence recursively
-# The if statement checks if the input n is either 0, 1 or 2 because the sequence starts with 0, 1, 1
-# If n is not 0, 1 or 2, the function calculates the nth number by adding the previous 2 numbers in the sequence
-function(n){
-  if (n == 1 || n == 0 || n == 2){
-    return(n)
-  }else {
-    return(fibo(n-1) + fibo(n-2))
+  # The following function calculates the nth number in the Fibonacci sequence recursively
+  # The if statement checks if the input n is either 0, 1 or 2 because the sequence starts with 0, 1, 1
+  # If n is not 0, 1 or 2, the function calculates the nth number by adding the previous 2 numbers in the sequence
+  function(n){
+    if (n == 1 || n == 0 || n == 2){
+      return(n)
+    }else {
+      return(fibo(n-1) + fibo(n-2))
+    }
   }
-}
+
 ```
 
 ## Others
