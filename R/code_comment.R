@@ -13,18 +13,18 @@ code_comment <- function(x, ...){
 
 #' @export
 code_comment.character <- function(x, ...){
-    what <- paste("Please comment the code below", ", and instantly return code like ```{r} code and comment here``` ")
+    what <- paste("Comment code below", ", and instantly return code like ```{r} code and comment here``` ")
     askgpt.character(x = what)
 }
 
 #' @export
 code_comment.function <- function(x, ...){
-    what <- paste("Please comment the code below",", and instantly return code like ```{r} code and comment here``` ")
+    what <- paste("Comment code below",", and instantly return code like ```{r} code and comment here``` ")
     askgpt.function(x, what)
 }
 
 #' @export
 code_comment.fseq <- function(x, ...){
-    what <- paste("Please comment the code below",", and instantly return code like ```{r} code and comment here``` ")
+    what <- paste("Comment code below",", and instantly return code like ```{r} code and comment here``` ")
     askgpt.fseq(x, what)
 }

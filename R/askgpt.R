@@ -32,7 +32,7 @@ askgpt.fseq <- function(x, prompt, ...) {
     len <- length(out_desc)
     sub_desc <- out_desc[3:(len - 2)]
     fseq_desc <- paste(sub_desc, collapse = "\n")
-    fseq_desc <- paste("given the description below is a sequence of functions piped with %>%, assuming the operand is called data: \n", fseq_desc)
+    fseq_desc <- paste("given description below is a sequence of functions piped with %>%: \n", fseq_desc)
     request(paste(prompt, "\n", fseq_desc, sep = ""))$choices[[1]]$message$content
 }
 
@@ -54,7 +54,7 @@ askgpt.data.frame <- function(x, prompt, summarized=FALSE) {
         ", and the types of the columns are", paste(types, collapse = ", ")
     )
 
-    request(paste(prompt, " ", ",given the description below:", "\n", df_desc, sep = ""))$choices[[1]]$message$content
+    request(paste(prompt, " ", ",given description below:", "\n", df_desc, sep = ""))$choices[[1]]$message$content
 }
 
 #' @export

@@ -12,16 +12,16 @@ code_completion <- function(x, ...){
 
 #' @export
 code_completion.character <- function(x, ...){
-    prompt <- paste("Please complete the code with the idea:", x, ",answer me start with and only return code like ```{r} code here```")
+    prompt <- paste("Complete code with idea:", x, ",answer me start with and only return code like ```{r} code here```")
     askgpt.character(x = prompt)
 }
 
 #' @export
 code_completion.function <- function(x, idea=NULL, ...){
     if (is.null(idea)) {
-        prompt <- paste("Please complete the code and answer me start with and only return code like ```{r} code here```")
+        prompt <- paste("Complete code and answer me start with and only return code like ```{r} code here```")
     }else {
-        prompt <- paste("Please complete the code with the idea:", idea, ",answer me start with and only return code like ```{r} code here```")
+        prompt <- paste("Complete code with idea:", idea, ",answer me start with and only return code like ```{r} code here```")
     }
     askgpt.function(x, prompt)
 }
@@ -29,9 +29,9 @@ code_completion.function <- function(x, idea=NULL, ...){
 #' @export
 code_completion.fseq <- function(x, idea=NULL, ...){
     if (is.null(idea)) {
-        prompt <- paste("Please complete the code and answer me start with and only return code like ```{r} code here```")
+        prompt <- paste("Complete code and answer start with and only return code like ```{r} code here```")
     }else {
-        prompt <- paste("Please complete the code with the idea:", idea, ",answer me start with and only return code like ```{r} code here```")
+        prompt <- paste("Complete code with idea:", idea, ",answer start with and only return code like ```{r} code here```")
     }
     askgpt.fseq(x, prompt)
 }
